@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Overlay</title>
+  <style>
+    body {
+      margin: 0;
+      background: transparent;
+      font-family: sans-serif;
+      color: white;
+      padding: 10px;
+    }
+    .container {
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      padding: 10px;
+      width: 280px;
+    }
+    .champion {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="list">
+    Şampiyon oylaması yükleniyor...
+  </div>
+  <script>
+    async function getVotes() {
+      const res = await fetch('/api/results');
+      const data = await res.json();
+      const sorted = Object.entries(data.votes).sort((a, b) => b[1] - a[1]);
+
+      const container = document.getElementById('list');
+      container.innerHTML = '';
+      for (const [champ, count] of sorted.slice(0, 10)) {
+        const div = document.createElement('div');
+        div.className = 'champion';
+        div.textContent = `${champ}: ${count} oy`;
+        container.appendChild(div);
+      }
+    }
+
+    setInterval(getVotes, 3000);
+    getVotes();
+  </script>
+</body>
+</html>

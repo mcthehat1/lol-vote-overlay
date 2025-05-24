@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LoL Oy Ver</title>
+  <style>
+    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding-top: 50px; }
+    input { padding: 10px; font-size: 16px; width: 250px; margin-bottom: 10px; }
+    button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    .status { margin-top: 10px; color: green; }
+  </style>
+</head>
+<body>
+  <h2>Hangi LoL şampiyonunu oynayayım?</h2>
+  <input id="champion" placeholder="Şampiyon adı yaz..." />
+  <button onclick="sendVote()">Oy Ver</button>
+  <div class="status" id="status"></div>
+
+  <script>
+    function sendVote() {
+      const champ = document.getElementById('champion').value.trim().toLowerCase();
+      if (!champ) return;
+      fetch('/api/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ champion: champ })
+      }).then(() => {
+        document.getElementById('status').textContent = `"${champ}" oyu gönderildi!`;
+        document.getElementById('champion').value = '';
+      });
+    }
+  </script>
+</body>
+</html>
