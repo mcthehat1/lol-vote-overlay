@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/vote", "destination": "/vote.html" },
+    { "source": "/overlay", "destination": "/overlay.html" }
+  ]
+}
